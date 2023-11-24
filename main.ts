@@ -4,7 +4,7 @@ import { GraphQLError } from "graphql";
 import mongoose from "mongoose";
 import { Query } from "./resolvers/query.ts";
 import { Mutation } from "./resolvers/mutation.ts";
-import { schema } from "./GraphQL/graph-pet.ts";
+import { typeDefs } from "./GraphQL/graph-pet.ts";
 
 try{
 
@@ -23,7 +23,7 @@ try{
 
   const server = new ApolloServer({
 
-    schema,
+    typeDefs,
     resolvers: resolvers,
   });
 

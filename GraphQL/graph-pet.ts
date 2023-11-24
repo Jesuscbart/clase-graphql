@@ -1,5 +1,5 @@
 // En graphql cuando es obligatorio se pone exclamacion, cuando es optativo no se pone nada
-export const schema = `#graphql
+export const typeDefs = `#graphql
     type Pet {
         id: ID!
         name: String!
