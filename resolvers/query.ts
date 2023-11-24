@@ -1,21 +1,47 @@
 import { GraphQLError } from "graphql";
 import { Pet } from "../types.ts";
+import PetModel from "../db/pet.ts";
 
 export const Query = {
 // Tiene parent y args
 
-    pets: (_parent: unknown, args: { breed?: string }): Pet[] => {
+    pets: async (_parent: unknown, args: { breed?: string }): Promise <Pet[]> => {
+
         if (args.breed) {
-          return pets.filter(p => p.breed === args.breed);
-        }
-        return pets;
-    },
+          const pets = await PetModel.find({ breed: args.breed }).exec();
 
-    pet: (_parent: unknown, args: { id: string }): Pet => {
-        const {id} = args;
-        const p = pets.find(pet => pet.id === id);
-        if (!p) throw new GraphQLError("Pet not found");
+          const p = pets.map((pet) => {
+            return {
+              id: pet.id,
+              name: pet.name,
+              breed: pet.breed,
+            };
+          })
           return p;
+        }
+
+        const pets = await PetModel.find().exec();
+
+        const p = pets.map((pet) => {
+          return {
+            id: pet.id,
+            name: pet.name,
+            breed: pet.breed,
+          };
+        })
+        return p;
     },
 
+
+    pet: async (_parent: unknown, args: { id: string }) => {
+
+        const petID = await PetModel.findOne({ _id: args.id }).exec();
+
+        if (!petID) {
+          throw new GraphQLError(`No pet found with id: ${args.id}`, {
+            extensions: { code: "not_found" },
+          });
+        }
+        return petID;
+    },
 }
