@@ -12,7 +12,6 @@ try{
 
   if (!MONGO_URL) {
     console.log("No mongo URL found");
-    Deno.exit(1);
   }
 
   await mongoose.connect(MONGO_URL);
@@ -33,7 +32,6 @@ try{
 }
 catch(e){
   console.error(e);
-  Deno.exit(1);
 }   
 
  
