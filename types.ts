@@ -1,0 +1,6 @@
+// Tipos de TypeScript
+export type Pet = {
+    id: string;
+    name: string;
+    breed: string
+};
